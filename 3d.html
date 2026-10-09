@@ -42,12 +42,15 @@ box(scene,6.62,.018,4.22,mat(0x494638,.98,.01),0,1.33,0);
 const chalk=mat(0xbab29a,.95,.01,0x28251e,.1);
 for(let x=-3;x<=3;x+=1){box(scene,.018,.012,4.05,chalk,x,1.345,0)}
 for(let z=-2;z<=2;z+=1){box(scene,6.45,.012,.018,chalk,0,1.346,z)}
-// central rotating metal ring, embedded in the table
-cylinder(scene,1.38,1.38,.055,black,0,1.37,0,64);
-cylinder(scene,1.29,1.29,.045,edge,0,1.405,0,64);
-cylinder(scene,1.18,1.18,.035,mat(0x3d382e,.8,.22),0,1.43,0,64);
-cylinder(scene,1.05,1.05,.025,mat(0x292923,.8,.25),0,1.45,0,64);
-for(let i=0;i<32;i++){const a=i*Math.PI/16;cylinder(scene,.022,.022,.02,brass,Math.cos(a)*1.24,1.46,Math.sin(a)*1.24,10)}
+// Large flat chalk circle painted onto the rectangular tabletop — not a raised circular platform
+const circleLineMat=mat(0xbdb49a,.96,.01,0x28251e,.08);
+const paintedCircle=new THREE.Mesh(new THREE.TorusGeometry(1.72,.018,8,96),circleLineMat);
+paintedCircle.rotation.x=Math.PI/2;
+paintedCircle.position.set(0,1.365,0);
+paintedCircle.receiveShadow=true;
+scene.add(paintedCircle);
+// A simple center line crosses the table, as in the reference image
+box(scene,6.42,.012,.022,chalk,0,1.356,0);
 // Table legs and reinforced industrial frame
 for(const x of [-2.8,2.8])for(const z of [-1.7,1.7]){box(scene,.18,1.0,.18,dark,x,.52,z);box(scene,.28,.09,.28,black,x,.08,z)}
 box(scene,5.9,.12,.12,edge,0,.45,-1.65);box(scene,5.9,.12,.12,edge,0,.45,1.65);
@@ -79,8 +82,7 @@ sphere(dealer,0,-.25,.39,.42,.18,.08,deep);
 for(let i=0;i<9;i++){const tooth=box(dealer,.055,.12,.055,teeth,-.31+i*.078,-.28,.46);tooth.rotation.z=(i-4)*-.035}
 for(let i=0;i<8;i++){const tooth=box(dealer,.05,.085,.05,teeth,-.27+i*.078,-.36,.455);tooth.rotation.z=(i-3)*.04}
 const neck=box(dealer,.48,.48,.3,deep,0,-.78,0);neck.rotation.z=.04;
-// table edge lamps
-for(let i=0;i<8;i++){const a=i*Math.PI/4;const p=sphere(scene,Math.cos(a)*2.19,1.42,Math.sin(a)*2.19,.045,.025,.045,i%2?brass:redMat)}
+// The tabletop circle is a flat painted chalk marking; no raised perimeter hardware.
 // Floating dust
 const count=280,positions=new Float32Array(count*3);for(let i=0;i<count;i++){positions[i*3]=(Math.random()-.5)*13;positions[i*3+1]=Math.random()*5;positions[i*3+2]=(Math.random()-.5)*11-1}
 const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(positions,3));const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xd9a6a0,size:.022,transparent:true,opacity:.45}));scene.add(dust);
