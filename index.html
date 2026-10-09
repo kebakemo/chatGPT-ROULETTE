@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b0f">
+<title>CHATGPT ROULETTE — LAST ROUND</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+:root{color-scheme:dark;--bg:#090b0f;--panel:#11151b;--line:#2a3039;--muted:#77818e;--text:#e9edf2;--red:#e04444;--amber:#e6ad50;--green:#7bc6a4;--cyan:#83c7d8}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif}body{background:radial-gradient(ellipse at 50% -15%,#29262a 0%,#101217 42%,#080a0d 78%);min-height:100vh}.mono{font-family:'IBM Plex Mono',monospace;letter-spacing:.04em}
+button{font:inherit;cursor:pointer;color:inherit;border:1px solid var(--line);background:#1a2028;transition:transform .14s,border-color .14s,background .14s}button:hover:not(:disabled){border-color:#8a929d;background:#252d37}button:active:not(:disabled){transform:scale(.98)}button:disabled{opacity:.35;cursor:not-allowed}
+.shell{max-width:1120px;margin:auto;padding:20px 22px 36px}.topbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0 18px;gap:12px}.brand{font:700 13px 'IBM Plex Mono',monospace;letter-spacing:.16em}.brand b{color:var(--red)}.top-meta{color:var(--muted);font:11px 'IBM Plex Mono',monospace;text-align:right}.hero{padding:27px 0 18px;display:flex;justify-content:space-between;align-items:end;gap:16px}.eyebrow{font:600 10px 'IBM Plex Mono',monospace;color:var(--red);letter-spacing:.22em}.hero h1{font-size:clamp(28px,5vw,48px);letter-spacing:-.055em;line-height:1.05;margin:8px 0 9px;font-weight:900}.hero p{margin:0;color:#929ba6;font-size:12px}.round-chip{border:1px solid #553232;color:#f08a82;padding:9px 12px;font:600 11px 'IBM Plex Mono',monospace;white-space:nowrap}
+.arena{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:12px;align-items:stretch}.fighter,.center-table,.log-panel,.inventory,.help-panel{background:linear-gradient(145deg,#151a21,#0e1116);border:1px solid var(--line);position:relative;overflow:hidden}.fighter{padding:18px 16px;min-height:220px}.fighter.active{border-color:#8a4545;box-shadow:inset 0 0 0 1px #4b2525,0 0 32px #d13e3e0c}.fighter.active:before{content:'YOUR TURN';position:absolute;top:0;right:0;padding:5px 8px;background:#5d2626;color:#ffd9d4;font:700 9px 'IBM Plex Mono',monospace;letter-spacing:.12em}.fighter.dealer.active:before{content:'DEALER TURN'}.portrait{height:74px;width:74px;border:1px solid #343b46;background:linear-gradient(140deg,#252c35,#101318);display:grid;place-items:center;margin-bottom:14px;font:700 28px 'IBM Plex Mono',monospace;color:#aab3bf;position:relative}.portrait:after{content:'';position:absolute;inset:6px;border:1px solid #ffffff0c}.dealer .portrait{color:#d65a58;background:linear-gradient(140deg,#382122,#171215)}.fighter-name{font-weight:900;font-size:14px;letter-spacing:.06em}.fighter-sub{color:var(--muted);font:10px 'IBM Plex Mono',monospace;margin-top:3px}.hp{display:flex;gap:5px;margin-top:16px}.heart{width:19px;height:8px;background:#303640;transform:skew(-20deg)}.heart.on{background:var(--red);box-shadow:0 0 9px #e0444440}.statusline{font:10px 'IBM Plex Mono',monospace;color:var(--muted);margin-top:12px;min-height:15px}.center-table{min-height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:18px;background:radial-gradient(ellipse,#242027 0%,#14171d 52%,#101319 100%)}.table-label{font:600 9px 'IBM Plex Mono',monospace;color:#7e8792;letter-spacing:.22em}.gun{font-size:52px;filter:grayscale(1);margin:10px 0 2px;transform:rotate(-24deg);text-shadow:0 6px 25px #000}.shells{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;justify-content:center}.shell-dot{height:29px;width:11px;border-radius:3px 3px 1px 1px;background:#3e4650;border:1px solid #6e7884;box-shadow:inset 0 -7px 0 #252b33}.shell-dot.live{background:#a63e3c;border-color:#e47771;box-shadow:inset 0 -7px 0 #682322}.shell-dot.unknown{background:#303842;border-color:#525d6a}.shell-count{font:10px 'IBM Plex Mono',monospace;color:#a3acb7;margin-top:9px}.table-message{min-height:20px;margin-top:12px;font-size:11px;color:var(--amber);text-align:center}
+.layout{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-top:12px}.section-head{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line);font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.13em;color:#aeb7c2}.section-head span:last-child{color:var(--muted);letter-spacing:0}.actions{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{padding:13px 12px;text-align:left;min-height:70px;display:flex;gap:10px;align-items:center}.action .ico{font-size:21px;width:28px;text-align:center;flex-shrink:0}.action strong{display:block;font-size:12px}.action small{display:block;color:#8a95a2;font-size:10px;margin-top:4px;line-height:1.45}.action.danger{border-color:#643535;background:#28191c}.action.danger:hover:not(:disabled){background:#3a2023;border-color:#b4514e}.action.safe{border-color:#315448}.action:disabled{filter:grayscale(.6)}
+.inventory{margin-top:12px}.items{padding:13px;display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.item{padding:10px 5px;text-align:center;min-width:0;background:#171d24}.item .item-ico{font-size:20px}.item strong{display:block;font-size:10px;margin-top:5px}.item small{display:block;font:10px 'IBM Plex Mono',monospace;color:var(--amber);margin-top:4px}.item:disabled{opacity:.27}
+.rightcol{display:flex;flex-direction:column;gap:12px}.log-panel{min-height:176px}.log{padding:10px 14px;max-height:210px;overflow:auto;font-size:11px;line-height:1.75;color:#a9b1bc}.log p{margin:0;padding:5px 0;border-bottom:1px solid #ffffff08}.log p:last-child{color:#e7d5b4}.log .time{font:10px 'IBM Plex Mono',monospace;color:#66717d;margin-right:8px}.help-panel{padding:14px 16px}.help-panel h3{font-size:11px;margin:0 0 9px;letter-spacing:.1em}.help-panel p{font-size:10px;line-height:1.8;color:#929ba6;margin:0}.bottomline{margin-top:15px;display:flex;justify-content:space-between;gap:12px;align-items:center;color:#66717d;font:9px 'IBM Plex Mono',monospace}.bottomline button{padding:7px 10px;font-size:10px}
+.overlay{position:fixed;inset:0;background:#050609e8;backdrop-filter:blur(8px);z-index:10;display:grid;place-items:center;padding:20px}.modal{width:min(480px,100%);border:1px solid #444b55;background:linear-gradient(145deg,#1b2028,#0c0f13);padding:clamp(22px,5vw,38px);box-shadow:0 24px 100px #000}.modal .eyebrow{margin-bottom:12px}.modal h2{font-size:clamp(25px,6vw,38px);margin:0 0 12px;line-height:1.1}.modal p{font-size:12px;line-height:1.9;color:#aab2bc}.modal button{width:100%;padding:14px;margin-top:10px;background:#a93a3a;border-color:#d95b57;font-weight:900;letter-spacing:.08em}.modal button.secondary{background:transparent;border-color:#414954;font-size:11px}.result-stats{display:flex;gap:10px;margin:18px 0}.result-stats div{flex:1;padding:12px;background:#ffffff08;border:1px solid var(--line)}.result-stats small{display:block;font-size:9px;color:var(--muted)}.result-stats b{font:700 18px 'IBM Plex Mono',monospace}
+.flash{animation:flash .32s ease}@keyframes flash{0%{filter:brightness(2);transform:translateX(0)}30%{transform:translateX(-4px)}60%{transform:translateX(4px)}100%{filter:none;transform:translateX(0)}}.shake{animation:shake .25s}@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}.hidden{display:none!important}
+@media(max-width:760px){.shell{padding:14px 12px 28px}.topbar{padding-bottom:13px}.hero{padding-top:22px}.arena{grid-template-columns:1fr 1fr;gap:8px}.center-table{grid-column:1/-1;grid-row:1;min-height:150px;order:-1}.fighter{min-height:195px;padding:14px 12px}.portrait{height:52px;width:52px;font-size:22px;margin-bottom:10px}.fighter.active:before{font-size:7px}.layout{grid-template-columns:1fr}.rightcol{display:grid;grid-template-columns:1fr 1fr}.log-panel{min-width:0}.log{max-height:160px}.items{grid-template-columns:repeat(5,1fr);gap:5px;padding:9px}.item{padding:9px 2px}.item strong{font-size:9px}.item .item-ico{font-size:17px}.action{padding:10px;min-height:66px;gap:6px}.action .ico{font-size:18px;width:22px}.action strong{font-size:11px}.action small{font-size:9px}.bottomline{align-items:flex-start}.round-chip{font-size:9px;padding:7px}.hero p{font-size:11px}}
+@media(max-width:400px){.rightcol{grid-template-columns:1fr}.hero h1{font-size:28px}.top-meta{font-size:9px}.items{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><b>●</b> CHATGPT / ROULETTE</div><div class="top-meta">PROTOTYPE 0.1.0<br>NO WAY OUT</div></header>
+<section class="hero"><div><div class="eyebrow">SURVIVAL PROTOCOL // 001</div><h1>LAST ROUND<span style="color:var(--red)">.</span></h1><p>運を信じるか、確率を支配するか。</p></div><div class="round-chip">ROUND <span id="round">01</span></div></section>
+<section class="arena">
+<div class="fighter player active" id="player-card"><div class="portrait">YOU</div><div class="fighter-name">PLAYER</div><div class="fighter-sub">SUBJECT 01 / HUMAN</div><div class="hp" id="player-hp"></div><div class="statusline" id="player-status">READY</div></div>
+<div class="center-table"><div class="table-label">CHAMBER STATUS</div><div class="gun">⌁</div><div class="shells" id="shells"></div><div class="shell-count" id="shell-count">MAGAZINE EMPTY</div><div class="table-message" id="table-message">対戦相手を見極めろ。</div></div>
+<div class="fighter dealer" id="dealer-card"><div class="portrait">AI</div><div class="fighter-name">THE DEALER</div><div class="fighter-sub">SUBJECT 02 / MACHINE</div><div class="hp" id="dealer-hp"></div><div class="statusline" id="dealer-status">ANALYZING...</div></div>
+</section>
+<section class="layout">
+<div>
+<div class="center-table" style="min-height:0;display:block;padding:0;margin-bottom:12px"><div class="section-head"><span>YOUR MOVE</span><span id="turn-label">SELECT ACTION</span></div><div class="actions">
+<button class="action danger" id="shoot-dealer"><span class="ico">⌁</span><span><strong>ディーラーを撃つ</strong><small>実弾ならダメージを与える</small></span></button>
+<button class="action" id="shoot-self"><span class="ico">↻</span><span><strong>自分を撃つ</strong><small>空砲ならターン継続</small></span></button>
+</div></div>
+<div class="inventory"><div class="section-head"><span>ITEM INVENTORY</span><span>USE STRATEGICALLY</span></div><div class="items">
+<button class="item" id="item-magnifier"><div class="item-ico">⌕</div><strong>虫眼鏡</strong><small id="count-magnifier">× 1</small></button>
+<button class="item" id="item-beer"><div class="item-ico">⇣</div><strong>排莢</strong><small id="count-beer">× 1</small></button>
+<button class="item" id="item-saw"><div class="item-ico">⌁</div><strong>ソー</strong><small id="count-saw">× 1</small></button>
+<button class="item" id="item-cuffs"><div class="item-ico">⛓</div><strong>手錠</strong><small id="count-cuffs">× 1</small></button>
+<button class="item" id="item-cigarette"><div class="item-ico">≋</div><strong>回復</strong><small id="count-cigarette">× 1</small></button>
+<button class="item" id="item-inverter"><div class="item-ico">⇄</div><strong>反転器</strong><small id="count-inverter">× 1</small></button>
+<button class="item" id="item-adrenaline"><div class="item-ico">⚡</div><strong>奪取</strong><small id="count-adrenaline">× 1</small></button>
+<button class="item" id="item-medicine"><div class="item-ico">✚</div><strong>薬</strong><small id="count-medicine">× 1</small></button>
+<button class="item" id="item-phone"><div class="item-ico">⌁</div><strong>予測</strong><small id="count-phone">× 1</small></button>
+<button class="item" id="item-blank" disabled><div class="item-ico">—</div><strong>空き枠</strong><small>—</small></button>
+</div></div>
+</div>
+<div class="rightcol">
+<div class="log-panel"><div class="section-head"><span>BLACK BOX</span><span>EVENT LOG</span></div><div class="log" id="log"></div></div>
+<div class="help-panel"><h3>FIELD NOTES / 操作メモ</h3><p>実弾は赤、空砲は灰色。虫眼鏡で現在の弾を確認し、反転器で種類を変えられる。空砲を自分に撃つと追加ターン。ソーは次の実弾を強化する。アイテムは使うタイミングが勝敗を分ける。</p></div>
+</div>
+</section>
+<div class="bottomline"><span>ORIGINAL FAN-MADE CONCEPT · NO ASSETS FROM THE ORIGINAL GAME</span><button id="restart">↻ RESTART RUN</button></div>
+</div>
+<div class="overlay" id="intro"><div class="modal"><div class="eyebrow">UNKNOWN FACILITY / 03:17 AM</div><h2>生き残れるのは、<br>ひとりだけ。</h2><p>目の前のディーラーは、弾の残数とあなたの行動を分析している。確率を読み、道具を使い、最後の一発まで生き延びろ。</p><p>このゲームはオリジナルのファンメイド作品です。ゲーム開始後、相手のHPがゼロになると勝利です。</p><button id="start">RUN THE TABLE →</button><button class="secondary" id="howto">ルールを確認</button></div></div>
+<div class="overlay hidden" id="result"><div class="modal"><div class="eyebrow" id="result-eyebrow">SESSION TERMINATED</div><h2 id="result-title">YOU SURVIVED.</h2><p id="result-copy"></p><div class="result-stats"><div><small>ROUNDS</small><b id="stat-rounds">01</b></div><div><small>SHOTS FIRED</small><b id="stat-shots">00</b></div><div><small>ITEMS USED</small><b id="stat-items">00</b></div></div><button id="again">PLAY AGAIN →</button></div></div>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const ITEM_NAMES = {magnifier:'虫眼鏡',beer:'排莢',saw:'ソー',cuffs:'手錠',cigarette:'回復',inverter:'反転器',adrenaline:'奪取',medicine:'薬',phone:'予測'};
+const state = {playerHP:4,dealerHP:4,maxHP:4,round:1,turn:'player',shells:[],index:0,known:null,items:{},dealerItems:{},saw:false,dealerSaw:false,cuffed:false,shots:0,itemsUsed:0,locked:false,started:false,gameOver:false,logs:[],lastMessage:''};
+const rand = n => Math.floor(Math.random()*n);
+function log(msg){state.logs.unshift(msg);state.logs=state.logs.slice(0,12);$('log').innerHTML=state.logs.map((x,i)=>'<p><span class="time">'+String(state.logs.length-i).padStart(2,'0')+'</span>'+x+'</p>').join('');}
+function sound(freq=180,duration=.08,type='square'){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=sound.ctx||(sound.ctx=new C());const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.05,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+duration);}catch(e){}}
+function renderHP(id,hp){$(id).innerHTML=Array.from({length:state.maxHP},(_,i)=>'<span class="heart '+(i<hp?'on':'')+'"></span>').join('');}
+function remaining(){return state.shells.slice(state.index);}
+function countType(type){return remaining().filter(s=>s===type).length;}
+function reload(){let n=4+rand(3),live=1+rand(n-1);state.shells=Array(live).fill('live').concat(Array(n-live).fill('blank'));for(let i=n-1;i>0;i--){const j=rand(i+1);[state.shells[i],state.shells[j]]=[state.shells[j],state.shells[i]];}state.index=0;state.known=null;log('新しいマガジンを装填。実弾 '+live+' / 空砲 '+(n-live)+'。');}
+function giveItems(target,amount=3){const pool=['magnifier','beer','saw','cuffs','cigarette','inverter','adrenaline','medicine','phone'];target.items={};for(let i=0;i<amount;i++){const k=pool[rand(pool.length)];target.items[k]=(target.items[k]||0)+1;}}
+function render(){renderHP('player-hp',state.playerHP);renderHP('dealer-hp',state.dealerHP);$('round').textContent=String(state.round).padStart(2,'0');$('player-status').textContent=state.playerHP+' HP · '+(state.saw?'SAW ARMED':'READY');$('dealer-status').textContent=state.cuffed?'CUFFED / SKIPPED':state.dealerSaw?'SAW ARMED':state.turn==='dealer'?'CALCULATING...':'WAITING';$('player-card').classList.toggle('active',state.turn==='player'&&!state.gameOver);$('dealer-card').classList.toggle('active',state.turn==='dealer'&&!state.gameOver);$('turn-label').textContent=state.gameOver?'SESSION ENDED':state.turn==='player'?'YOUR TURN':'DEALER THINKING';$('shoot-dealer').disabled=!state.started||state.turn!=='player'||state.locked||state.gameOver;$('shoot-self').disabled=$('shoot-dealer').disabled;
+const rem=remaining();$('shells').innerHTML=rem.map((s,i)=>'<span class="shell-dot '+(state.known!==null&&i===0?s:'unknown')+'"></span>').join('');$('shell-count').textContent=rem.length?rem.length+' SHELLS REMAIN · '+countType('live')+' LIVE / '+countType('blank')+' BLANK':'MAGAZINE EMPTY';$('table-message').textContent=state.lastMessage||'選択を間違えるな。';
+for(const k of Object.keys(ITEM_NAMES)){const n=state.items[k]||0;$('count-'+k).textContent='× '+n;$('item-'+k).disabled=!state.started||state.turn!=='player'||state.locked||state.gameOver||n<=0||rem.length===0;}
+}
+function spend(k){if(!state.items[k])return false;state.items[k]--;state.itemsUsed++;return true;}
+function nextTurn(turn){if(state.gameOver)return;state.turn=turn;state.locked=false;state.known=null;if(remaining().length===0)reload();render();if(turn==='dealer')setTimeout(dealerMove,650);}
+function endCheck(){if(state.playerHP<=0||state.dealerHP<=0){state.gameOver=true;state.locked=true;const win=state.dealerHP<=0;$('result-eyebrow').textContent=win?'SUBJECT 02 / ELIMINATED':'SUBJECT 01 / ELIMINATED';$('result-title').textContent=win?'YOU SURVIVED.':'THE HOUSE WINS.';$('result-copy').textContent=win?'ディーラーを停止させた。だが、これは最初のテーブルに過ぎない。':'判断が一手遅かった。次は確率を読み、道具を使い切れ。';$('stat-rounds').textContent=String(state.round).padStart(2,'0');$('stat-shots').textContent=String(state.shots).padStart(2,'0');$('stat-items').textContent=String(state.itemsUsed).padStart(2,'0');$('result').classList.remove('hidden');sound(win?520:70,.35,'sawtooth');render();return true;}return false;}
+function consumeShell(){const s=state.shells[state.index++];state.known=null;return s;}
+function shoot(target){if(state.locked||state.gameOver||state.turn!=='player')return;state.locked=true;state.shots++;const shell=consumeShell(),who=target==='dealer'?'ディーラー':'自分';sound(90,.18,'sawtooth');state.lastMessage=shell==='live'?'実弾 — BANG':'空砲 — CLICK';log(who+'に発砲。'+(shell==='live'?'実弾！':'空砲。'));const card=$(target==='dealer'?'dealer-card':'player-card');card.classList.remove('flash');void card.offsetWidth;card.classList.add('flash');
+if(shell==='live'){const damage=state.saw?2:1;state.saw=false;if(target==='dealer'){state.dealerHP-=damage;log('ディーラーに '+damage+' ダメージ。');}else{state.playerHP-=damage;log('自分が '+damage+' ダメージを受けた。');}sound(55,.22,'sawtooth');}
+else{log('空砲。ダメージなし。');}
+render();if(endCheck())return;
+if(shell==='blank'&&target==='player'){state.lastMessage='空砲！ 追加ターン';log('空砲を自分に撃ったため、ターン継続。');setTimeout(()=>nextTurn('player'),450);}
+else setTimeout(()=>{if(remaining().length===0){state.round++;giveItems(state.items,1);giveItems(state.dealerItems,1);log('ラウンド '+state.round+'。双方に補給が届いた。');reload();}nextTurn('dealer');},500);
+}
+function useItem(k){if(state.locked||state.turn!=='player'||state.gameOver||!spend(k))return;const rem=remaining();if(!rem.length){state.items[k]++;return;}
+switch(k){
+case'magnifier':state.known=rem[0];state.lastMessage='現在の弾：'+(rem[0]==='live'?'実弾':'空砲');log('虫眼鏡：現在の弾は'+(rem[0]==='live'?'実弾。':'空砲。'));sound(650,.08,'sine');break;
+case'beer':{const s=consumeShell();state.lastMessage=(s==='live'?'実弾':'空砲')+'を排莢';log('排莢：'+(s==='live'?'実弾':'空砲')+'を捨てた。');sound(320,.09);if(!remaining().length){state.round++;reload();}break;}
+case'saw':state.saw=true;state.lastMessage='次の実弾が2ダメージ';log('ソーを装着。次の実弾を強化。');sound(240,.12);break;
+case'cuffs':state.cuffed=true;state.lastMessage='ディーラーの次ターンをスキップ';log('手錠をかけた。ディーラーの次ターンを封じる。');break;
+case'cigarette':if(state.playerHP>=state.maxHP){state.items[k]++;state.itemsUsed--;state.lastMessage='HPは最大です';log('回復は不要。');break;}state.playerHP=Math.min(state.maxHP,state.playerHP+1);state.lastMessage='HP +1';log('回復。HPが1回復した。');sound(480,.12,'sine');break;
+case'inverter':state.shells[state.index]=state.shells[state.index]==='live'?'blank':'live';state.known=state.shells[state.index];state.lastMessage='現在の弾を反転';log('反転器：現在の弾を'+(state.known==='live'?'実弾':'空砲')+'に変えた。');sound(400,.1,'triangle');break;
+case'adrenaline':{const keys=Object.keys(state.dealerItems).filter(x=>state.dealerItems[x]>0);if(!keys.length){state.items[k]++;state.itemsUsed--;state.lastMessage='奪えるアイテムがない';log('ディーラーに奪えるアイテムがない。');break;}const stolen=keys[rand(keys.length)];state.dealerItems[stolen]--;state.items[stolen]=(state.items[stolen]||0)+1;state.lastMessage=ITEM_NAMES[stolen]+'を奪取';log('奪取：'+ITEM_NAMES[stolen]+'をディーラーから奪った。');break;}
+case'medicine':{const roll=rand(4);if(roll===0){state.playerHP=Math.max(0,state.playerHP-1);state.lastMessage='薬の副作用：HP -1';log('薬の副作用！ HPを失った。');}else{state.playerHP=Math.min(state.maxHP,state.playerHP+1);state.lastMessage='薬が効いた：HP +1';log('薬が効いた。HPが回復。');}sound(roll===0?70:440,.12);break;}
+case'phone':{const future=rem.slice(0,Math.min(3,rem.length));const idx=rand(future.length);state.lastMessage='予測：'+(idx+1)+'発目は'+(future[idx]==='live'?'実弾':'空砲');log('予測端末：'+(idx+1)+'発目は'+(future[idx]==='live'?'実弾。':'空砲。'));sound(600,.08,'sine');break;}
+}
+render();if(endCheck())return;
+}
+function dealerUse(k){if(!state.dealerItems[k])return false;state.dealerItems[k]--;const rem=remaining();if(!rem.length)return false;switch(k){case'magnifier':state.known=rem[0];return true;case'beer':consumeShell();log('ディーラーが弾を排莢。');return true;case'saw':state.dealerSaw=true;return true;case'cuffs':state.cuffed=true;return true;case'cigarette':if(state.dealerHP<state.maxHP){state.dealerHP++;return true;}return false;case'inverter':state.shells[state.index]=state.shells[state.index]==='live'?'blank':'live';state.known=state.shells[state.index];return true;case'medicine':state.dealerHP=Math.min(state.maxHP,state.dealerHP+1);return true;case'phone':state.known=rem[0];return true;case'adrenaline':{const keys=Object.keys(state.items).filter(x=>state.items[x]>0);if(keys.length){const s=keys[rand(keys.length)];state.items[s]--;state.dealerItems[s]=(state.dealerItems[s]||0)+1;return true;}return false;}}return false;}
+function dealerMove(){if(state.gameOver||state.turn!=='dealer')return;if(state.cuffed){state.cuffed=false;log('ディーラーは手錠で行動できない。');nextTurn('player');return;}if(!remaining().length){state.round++;reload();}
+const rem=remaining(),live=countType('live'),prob=live/rem.length,known=state.known;
+if(state.dealerHP<state.maxHP&&state.dealerItems.cigarette){dealerUse('cigarette');log('ディーラーが回復した。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known===null&&state.dealerItems.magnifier){dealerUse('magnifier');log('ディーラーが弾を分析した。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known===null&&state.dealerItems.phone&&rem.length>1){dealerUse('phone');log('ディーラーが予測端末を使った。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known==='blank'&&state.dealerItems.inverter){dealerUse('inverter');log('ディーラーが弾を反転させた。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known==='live'&&state.dealerItems.saw&&!state.dealerSaw){dealerUse('saw');log('ディーラーがソーを装着。');}
+if(known==='live'&&state.dealerItems.cuffs&&!state.cuffed){dealerUse('cuffs');log('ディーラーが手錠を使用。');}
+if(known===null&&prob<.34&&state.dealerItems.beer){dealerUse('beer');log('ディーラーが弾を排莢した。');}
+render();setTimeout(()=>dealerFire(),450);
+}
+function dealerFire(){if(state.gameOver)return;const rem=remaining();if(!rem.length){state.round++;reload();}let shell=state.known!==null?state.known:remaining()[0];const live=countType('live'),prob=live/remaining().length;let target;
+if(state.known==='blank')target='self';else if(state.known==='live')target='player';else target=prob>=.5?'player':'self';
+if(state.dealerHP===1&&target==='self'&&shell==='live')target='player';
+state.shots++;shell=consumeShell();sound(100,.16,'sawtooth');state.lastMessage=shell==='live'?'実弾 — BANG':'空砲 — CLICK';log('ディーラーが'+(target==='player'?'あなた':'自分')+'に発砲。'+(shell==='live'?'実弾！':'空砲。'));
+const card=$(target==='player'?'player-card':'dealer-card');card.classList.remove('flash');void card.offsetWidth;card.classList.add('flash');
+if(shell==='live'){const damage=state.dealerSaw?2:1;state.dealerSaw=false;if(target==='player'){state.playerHP-=damage;log('あなたが '+damage+' ダメージを受けた。');}else{state.dealerHP-=damage;log('ディーラーが '+damage+' ダメージを受けた。');}}
+render();if(endCheck())return;if(shell==='blank'&&target==='self'){log('ディーラーは空砲を自分に撃ち、ターンを継続。');setTimeout(()=>dealerMove(),650);}else setTimeout(()=>{if(!remaining().length){state.round++;giveItems(state.items,1);giveItems(state.dealerItems,1);log('ラウンド '+state.round+'。補給が届いた。');reload();}nextTurn('player');},600);}
+function start(){Object.assign(state,{playerHP:4,dealerHP:4,maxHP:4,round:1,turn:'player',shells:[],index:0,known:null,saw:false,dealerSaw:false,cuffed:false,shots:0,itemsUsed:0,locked:false,started:true,gameOver:false,logs:[],lastMessage:''});giveItems(state.items,3);giveItems(state.dealerItems,3);reload();log('テーブルへようこそ。生き残るために考えろ。');$('intro').classList.add('hidden');$('result').classList.add('hidden');render();}
+$('start').addEventListener('click',()=>{start();sound(350,.12);});
+$('again').addEventListener('click',start);$('restart').addEventListener('click',()=>{if(confirm('このランを終了して最初からやり直しますか？'))start();});
+$('shoot-dealer').addEventListener('click',()=>shoot('dealer'));$('shoot-self').addEventListener('click',()=>shoot('player'));
+for(const k of Object.keys(ITEM_NAMES))$('item-'+k).addEventListener('click',()=>useItem(k));
+$('howto').addEventListener('click',()=>alert('【基本ルール】\n・ディーラーのHPを0にすると勝利。自分のHPが0で敗北。\n・赤い弾は実弾、灰色は未確認。虫眼鏡で現在の弾を確認できます。\n・自分に空砲を撃つと追加ターン。\n・ソーは次の実弾を2ダメージに強化。手錠はディーラーのターンを1回飛ばします。\n・回復、排莢、反転器、予測端末などを状況に応じて使用してください。'));
+render();
+})();
+</script>
+</body>
+</html>
