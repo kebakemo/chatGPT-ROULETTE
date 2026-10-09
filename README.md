@@ -1,32 +1,37 @@
 # CHATGPT-ROULETTE — LAST ROUND
 
-A browser-playable, original roulette survival game prototype. Built as a standalone HTML/CSS/JavaScript project so it can be tried on desktop or mobile browsers without installing dependencies.
+An original, browser-playable roulette-survival game concept. The project is a standalone HTML/CSS/JavaScript app designed to work on desktop and mobile browsers without a build step.
 
-## Play
+## Play online
 
-Open `index.html` in a browser, or enable GitHub Pages for this repository and publish from the `main` branch root.
+Once GitHub Pages finishes deploying, open:
 
-## Features
+https://kebakemo.github.io/chatGPT-ROULETTE/
 
-- Japanese UI with a dark, industrial table aesthetic
-- Player vs. heuristic dealer AI
-- Live and blank shells, randomized magazines, health and rounds
-- Items: magnifier, eject, saw, handcuffs, heal, inverter, steal, medicine, prediction
-- Event log, turn indicators, hit animations, generated sound effects
-- Responsive layout for mobile and desktop
-- No build step or external JavaScript dependencies
+If the page does not load, check **Settings → Pages** and the repository's **Actions** tab. First deployments may take a few minutes.
+
+## Current features
+
+- Responsive Japanese UI with a dark, industrial horror aesthetic
+- Player-versus-dealer rounds with randomized live and blank shells
+- HP, turn state, magazine reloads, and win/lose screens
+- Nine tactical items: magnifier, eject, saw, handcuffs, heal, inverter, steal, medicine, and shell prediction
+- Heuristic dealer behavior and selectable Easy / Normal / Hard decision thresholds
+- Event log, hit flashes, generated sound effects, and mobile-friendly controls
+- No JavaScript framework or build step
 
 ## Controls
 
-- **Shoot dealer:** attempt to damage the dealer.
-- **Shoot yourself:** if the shell is blank, keep your turn.
-- **Items:** use information and tactical tools before firing.
+- **Shoot dealer:** fire the current shell at the dealer.
+- **Shoot yourself:** a blank shell grants another turn.
+- **Items:** use tactical items before firing.
+- **AI difficulty:** tap the difficulty control to cycle through Easy, Normal, and Hard.
 - Win by reducing the dealer's HP to zero. Lose if your HP reaches zero.
 
-## Status
+## Honest status
 
-This is an early playable prototype. It has not yet been fully tested across browsers or balanced through extensive playtesting. Treat the current build as a foundation for future upgrades.
+This is a playable prototype, not a verified commercial-quality release. It has not yet been exhaustively tested on every browser or balanced through extensive playtesting. Known next steps include automated gameplay tests, improved item and dealer decision logic, better sound and animation, accessibility improvements, and more content.
 
-## Project scope
+## Credits and scope
 
-This is an independent fan-made concept inspired by the broad genre of tense, turn-based roulette survival games. It does not include assets copied from the original Buckshot Roulette.
+An independent fan-made project inspired by the broad genre of tense, turn-based roulette survival games. It does not bundle assets copied from the original Buckshot Roulette.
