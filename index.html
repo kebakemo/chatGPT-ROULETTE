@@ -97,7 +97,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opac
 <div class="help-panel"><h3>FIELD NOTES / 操作メモ</h3><p>実弾は赤、空砲は灰色。虫眼鏡で現在の弾を確認し、反転器で種類を変えられる。空砲を自分に撃つと追加ターン。ソーは次の実弾を強化する。アイテムは使うタイミングが勝敗を分ける。</p></div>
 </div>
 </section>
-<div class="bottomline"><span>ORIGINAL FAN-MADE CONCEPT · NO ASSETS FROM THE ORIGINAL GAME</span><button id="restart">↻ RESTART RUN</button></div>
+<div class="bottomline"><span>ORIGINAL FAN-MADE CONCEPT · NO ASSETS FROM THE ORIGINAL GAME</span><div style="display:flex;gap:7px;flex-wrap:wrap"><button id="difficulty">AI: NORMAL</button><button id="restart">↻ RESTART RUN</button></div></div>
 </div>
 <div class="overlay" id="intro"><div class="modal"><div class="eyebrow">UNKNOWN FACILITY / 03:17 AM</div><h2>生き残れるのは、<br>ひとりだけ。</h2><p>目の前のディーラーは、弾の残数とあなたの行動を分析している。確率を読み、道具を使い、最後の一発まで生き延びろ。</p><p>このゲームはオリジナルのファンメイド作品です。ゲーム開始後、相手のHPがゼロになると勝利です。</p><button id="start">RUN THE TABLE →</button><button class="secondary" id="howto">ルールを確認</button></div></div>
 <div class="overlay hidden" id="result"><div class="modal"><div class="eyebrow" id="result-eyebrow">SESSION TERMINATED</div><h2 id="result-title">YOU SURVIVED.</h2><p id="result-copy"></p><div class="result-stats"><div><small>ROUNDS</small><b id="stat-rounds">01</b></div><div><small>SHOTS FIRED</small><b id="stat-shots">00</b></div><div><small>ITEMS USED</small><b id="stat-items">00</b></div></div><button id="again">PLAY AGAIN →</button></div></div>
@@ -106,7 +106,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opac
 'use strict';
 const $ = id => document.getElementById(id);
 const ITEM_NAMES = {magnifier:'虫眼鏡',beer:'排莢',saw:'ソー',cuffs:'手錠',cigarette:'回復',inverter:'反転器',adrenaline:'奪取',medicine:'薬',phone:'予測'};
-const state = {playerHP:4,dealerHP:4,maxHP:4,round:1,turn:'player',shells:[],index:0,known:null,items:{},dealerItems:{},saw:false,dealerSaw:false,cuffed:false,shots:0,itemsUsed:0,locked:false,started:false,gameOver:false,logs:[],lastMessage:''};
+const state = {playerHP:4,dealerHP:4,maxHP:4,round:1,turn:'player',shells:[],index:0,known:null,items:{},dealerItems:{},saw:false,dealerSaw:false,cuffed:false,shots:0,itemsUsed:0,locked:false,started:false,gameOver:false,logs:[],lastMessage:'',difficulty:1};
 const rand = n => Math.floor(Math.random()*n);
 function log(msg){state.logs.unshift(msg);state.logs=state.logs.slice(0,12);$('log').innerHTML=state.logs.map((x,i)=>'<p><span class="time">'+String(state.logs.length-i).padStart(2,'0')+'</span>'+x+'</p>').join('');}
 function sound(freq=180,duration=.08,type='square'){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=sound.ctx||(sound.ctx=new C());const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.05,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+duration);}catch(e){}}
@@ -148,8 +148,8 @@ function dealerUse(k){if(!state.dealerItems[k])return false;state.dealerItems[k]
 function dealerMove(){if(state.gameOver||state.turn!=='dealer')return;if(state.cuffed){state.cuffed=false;log('ディーラーは手錠で行動できない。');nextTurn('player');return;}if(!remaining().length){state.round++;reload();}
 const rem=remaining(),live=countType('live'),prob=live/rem.length,known=state.known;
 if(state.dealerHP<state.maxHP&&state.dealerItems.cigarette){dealerUse('cigarette');log('ディーラーが回復した。');render();setTimeout(()=>dealerFire(),450);return;}
-if(known===null&&state.dealerItems.magnifier){dealerUse('magnifier');log('ディーラーが弾を分析した。');render();setTimeout(()=>dealerFire(),450);return;}
-if(known===null&&state.dealerItems.phone&&rem.length>1){dealerUse('phone');log('ディーラーが予測端末を使った。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known===null&&state.dealerItems.magnifier&&(state.difficulty>=1||Math.random()<.5)){dealerUse('magnifier');log('ディーラーが弾を分析した。');render();setTimeout(()=>dealerFire(),450);return;}
+if(known===null&&state.dealerItems.phone&&rem.length>1&&(state.difficulty>=2||Math.random()<.35)){dealerUse('phone');log('ディーラーが予測端末を使った。');render();setTimeout(()=>dealerFire(),450);return;}
 if(known==='blank'&&state.dealerItems.inverter){dealerUse('inverter');log('ディーラーが弾を反転させた。');render();setTimeout(()=>dealerFire(),450);return;}
 if(known==='live'&&state.dealerItems.saw&&!state.dealerSaw){dealerUse('saw');log('ディーラーがソーを装着。');}
 if(known==='live'&&state.dealerItems.cuffs&&!state.cuffed){dealerUse('cuffs');log('ディーラーが手錠を使用。');}
@@ -157,7 +157,7 @@ if(known===null&&prob<.34&&state.dealerItems.beer){dealerUse('beer');log('ディ
 render();setTimeout(()=>dealerFire(),450);
 }
 function dealerFire(){if(state.gameOver)return;const rem=remaining();if(!rem.length){state.round++;reload();}let shell=state.known!==null?state.known:remaining()[0];const live=countType('live'),prob=live/remaining().length;let target;
-if(state.known==='blank')target='self';else if(state.known==='live')target='player';else target=prob>=.5?'player':'self';
+if(state.known==='blank')target='self';else if(state.known==='live')target='player';else target=prob>=[.68,.5,.38][state.difficulty]?'player':'self';
 if(state.dealerHP===1&&target==='self'&&shell==='live')target='player';
 state.shots++;shell=consumeShell();sound(100,.16,'sawtooth');state.lastMessage=shell==='live'?'実弾 — BANG':'空砲 — CLICK';log('ディーラーが'+(target==='player'?'あなた':'自分')+'に発砲。'+(shell==='live'?'実弾！':'空砲。'));
 const card=$(target==='player'?'player-card':'dealer-card');card.classList.remove('flash');void card.offsetWidth;card.classList.add('flash');
@@ -165,7 +165,7 @@ if(shell==='live'){const damage=state.dealerSaw?2:1;state.dealerSaw=false;if(tar
 render();if(endCheck())return;if(shell==='blank'&&target==='self'){log('ディーラーは空砲を自分に撃ち、ターンを継続。');setTimeout(()=>dealerMove(),650);}else setTimeout(()=>{if(!remaining().length){state.round++;giveItems(state.items,1);giveItems(state.dealerItems,1);log('ラウンド '+state.round+'。補給が届いた。');reload();}nextTurn('player');},600);}
 function start(){Object.assign(state,{playerHP:4,dealerHP:4,maxHP:4,round:1,turn:'player',shells:[],index:0,known:null,saw:false,dealerSaw:false,cuffed:false,shots:0,itemsUsed:0,locked:false,started:true,gameOver:false,logs:[],lastMessage:''});giveItems(state.items,3);giveItems(state.dealerItems,3);reload();log('テーブルへようこそ。生き残るために考えろ。');$('intro').classList.add('hidden');$('result').classList.add('hidden');render();}
 $('start').addEventListener('click',()=>{start();sound(350,.12);});
-$('again').addEventListener('click',start);$('restart').addEventListener('click',()=>{if(confirm('このランを終了して最初からやり直しますか？'))start();});
+$('again').addEventListener('click',start);$('difficulty').addEventListener('click',()=>{state.difficulty=(state.difficulty+1)%3;$('difficulty').textContent='AI: '+['EASY','NORMAL','HARD'][state.difficulty];log('ディーラー難易度を'+['EASY','NORMAL','HARD'][state.difficulty]+'に設定。');});$('restart').addEventListener('click',()=>{if(confirm('このランを終了して最初からやり直しますか？'))start();});
 $('shoot-dealer').addEventListener('click',()=>shoot('dealer'));$('shoot-self').addEventListener('click',()=>shoot('player'));
 for(const k of Object.keys(ITEM_NAMES))$('item-'+k).addEventListener('click',()=>useItem(k));
 $('howto').addEventListener('click',()=>alert('【基本ルール】\n・ディーラーのHPを0にすると勝利。自分のHPが0で敗北。\n・赤い弾は実弾、灰色は未確認。虫眼鏡で現在の弾を確認できます。\n・自分に空砲を撃つと追加ターン。\n・ソーは次の実弾を2ダメージに強化。手錠はディーラーのターンを1回飛ばします。\n・回復、排莢、反転器、予測端末などを状況に応じて使用してください。'));
