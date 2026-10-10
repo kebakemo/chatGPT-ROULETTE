@@ -58,42 +58,42 @@ const rusted=new THREE.MeshStandardMaterial({map:sideTexture,roughness:.94,metal
 const batteredMetal=new THREE.MeshStandardMaterial({map:metalTexture,roughness:.78,metalness:.5});
 
 // Room shell: a nearly black, battered industrial enclosure
-const floor=box(scene,22,.16,22,material(0x0d0c0d,.96,.08),0,-.22,-1);
-const backWall=box(scene,13,6.4,.28,rusted,0,2.85,-5.4);
-const leftWall=box(scene,.25,6.4,11,rusted,-6.25,2.85,-.4);
-const rightWall=box(scene,.25,6.4,11,rusted,6.25,2.85,-.4);
-for(let i=0;i<13;i++){const x=-5.8+i*.96;box(scene,.035,6.0,.05,iron,x,2.8,-5.22)}
-for(let row=0;row<7;row++){for(let col=0;col<12;col++){const x=-5.6+col*.96+(row%2)*.38,y=.55+row*.78;if(y<5.7)box(scene,.9,.045,.035,edgePaint,x,y,-5.19)}}
-for(const side of [-1,1]){for(let i=0;i<6;i++){const z=-4.4+i*1.65;box(scene,.04,5.8,.12,iron,side*6.05,2.8,z);box(scene,.12,.08,1.55,redPaint,side*5.99,4.6,z+.6)}}
-for(let y of [1.0,2.1,3.3,4.6]){box(scene,12,.075,.07,iron,0,y,-5.15)}
+const floor=box(scene,24,.16,34,material(0x0d0c0d,.96,.08),0,-.22,-2.5);
+const backWall=box(scene,13,6.4,.28,rusted,0,2.85,-9.1);
+const leftWall=box(scene,.25,6.4,18,rusted,-6.25,2.85,-1.7);
+const rightWall=box(scene,.25,6.4,18,rusted,6.25,2.85,-1.7);
+for(let i=0;i<13;i++){const x=-5.8+i*.96;box(scene,.035,6.0,.05,iron,x,2.8,-8.91)}
+for(let row=0;row<7;row++){for(let col=0;col<12;col++){const x=-5.6+col*.96+(row%2)*.38,y=.55+row*.78;if(y<5.7)box(scene,.9,.045,.035,edgePaint,x,y,-8.88)}}
+for(const side of [-1,1]){for(let i=0;i<10;i++){const z=-8.2+i*1.65;box(scene,.04,5.8,.12,iron,side*6.05,2.8,z);box(scene,.12,.08,1.55,redPaint,side*5.99,4.6,z+.6)}}
+for(let y of [1.0,2.1,3.3,4.6]){box(scene,12,.075,.07,iron,0,y,-8.85)}
 // Ceiling steel lattice and hanging wires
-for(let z of [-4.7,-3.4,-2.1,-.8,.5]){box(scene,13,.17,.19,iron,0,5.8,z)}
-for(let x of [-5.5,-3.7,-1.9,0,1.9,3.7,5.5]){box(scene,.16,.16,10.5,iron,x,5.8,-1.1)}
-for(let i=0;i<7;i++){const x=-5.2+i*1.7;cable([[x,5.75,-4.8],[x+.25,4.9,-4.1],[x+.7,4.1,-3.6],[x+1.05,4.8,-2.6],[x+1.2,5.65,-1.9]],.027,i%2?rubber:darkIron)}
-cable([[-5.8,5.55,-3.9],[-3.5,4.7,-3.2],[0,4.6,-3.5],[3.4,4.8,-3.1],[5.9,5.55,-3.9]],.035,rubber);
-cable([[-6,3.9,-4.7],[-5.25,3.5,-3.8],[-5.1,2.5,-2.8],[-4.8,1.9,-1.5]],.045,darkIron);
-cable([[6,4.1,-4.6],[5.1,3.6,-3.6],[5.2,2.7,-2.7],[4.7,2.1,-1.4]],.045,darkIron);
+for(let z of [-8.4,-6.0,-3.5,-1.0,1.5,4.0]){box(scene,13,.17,.19,iron,0,5.8,z)}
+for(let x of [-5.5,-3.7,-1.9,0,1.9,3.7,5.5]){box(scene,.16,.16,17,iron,x,5.8,-1.7)}
+for(let i=0;i<7;i++){const x=-5.2+i*1.7;cable([[x,5.75,-8.3],[x+.25,4.9,-6.8],[x+.7,4.1,-5.0],[x+1.05,4.8,-2.6],[x+1.2,5.65,.3]],.027,i%2?rubber:darkIron)}
+cable([[-5.8,5.55,-8.0],[-3.5,4.7,-6.0],[0,4.6,-5.2],[3.4,4.8,-6.2],[5.9,5.55,-8.0]],.035,rubber);
+cable([[-6,3.9,-8.1],[-5.25,3.5,-6.2],[-5.1,2.5,-3.9],[-4.8,1.9,-1.5]],.045,darkIron);
+cable([[6,4.1,-8.0],[5.1,3.6,-6.0],[5.2,2.7,-3.7],[4.7,2.1,-1.4]],.045,darkIron);
 
 // Old rectangular table, scratched green-brown surface. The circle is paint, not a separate object.
-box(scene,8.1,.22,5.45,iron,0,1.03,.25);
-box(scene,8.02,.12,5.37,edgePaint,0,1.19,.25);
-const top=new THREE.Mesh(new THREE.PlaneGeometry(7.88,5.22),felt);top.rotation.x=-Math.PI/2;top.position.set(0,1.258,.25);top.receiveShadow=true;scene.add(top);
+box(scene,6.85,.22,7.15,iron,0,1.03,.25);
+box(scene,6.77,.12,7.07,edgePaint,0,1.19,.25);
+const top=new THREE.Mesh(new THREE.PlaneGeometry(6.63,6.93),felt);top.rotation.x=-Math.PI/2;top.position.set(0,1.258,.25);top.receiveShadow=true;scene.add(top);
 // Thick worn perimeter rails
-for(const x of [-4.02,4.02])box(scene,.15,.13,5.42,rusted,x,1.25,.25);
-for(const z of [-2.46,2.96])box(scene,8.05,.13,.15,rusted,0,1.25,z);
+for(const x of [-3.39,3.39])box(scene,.15,.13,7.12,rusted,x,1.25,.25);
+for(const z of [-3.31,3.81])box(scene,6.8,.13,.15,rusted,0,1.25,z);
 // Flat chalk markings with slight irregular handmade imperfection
 const circleMaterial=material(0xc8bd9f,.96,0,0x252016,.04);
-const circle=new THREE.Mesh(new THREE.TorusGeometry(1.82,.018,5,100),circleMaterial);circle.rotation.x=Math.PI/2;circle.position.set(0,1.274,.25);scene.add(circle);
+const circle=new THREE.Mesh(new THREE.TorusGeometry(1.72,.018,5,100),circleMaterial);circle.rotation.x=Math.PI/2;circle.position.set(0,1.274,.25);scene.add(circle);
 function chalkRect(cx,cz,w,d){const y=1.272;box(scene,w,.009,.027,chalk,cx,y,cz-d/2);box(scene,w,.009,.027,chalk,cx,y,cz+d/2);box(scene,.027,.009,d,chalk,cx-w/2,y,cz);box(scene,.027,.009,d,chalk,cx+w/2,y,cz)}
-chalkRect(0,-1.92,1.42,.53);chalkRect(0,2.18,1.54,.64);
-box(scene,7.1,.008,.022,chalk,0,1.273,.25);
+chalkRect(0,-2.45,1.42,.53);chalkRect(0,2.95,1.54,.64);
+box(scene,5.85,.008,.022,chalk,0,1.273,.25);
 // Table frame and legs
-for(const x of [-3.62,3.62])for(const z of [-1.9,2.4]){box(scene,.2,1.05,.2,iron,x,.55,z);box(scene,.31,.08,.31,darkIron,x,.035,z)}
-box(scene,7.3,.14,.15,iron,0,.51,-1.9);box(scene,7.3,.14,.15,iron,0,.51,2.4);
-box(scene,7.5,.1,.12,rusted,0,.88,-2.48);box(scene,7.5,.1,.12,rusted,0,.88,2.98);
+for(const x of [-3.0,3.0])for(const z of [-2.7,3.2]){box(scene,.2,1.05,.2,iron,x,.55,z);box(scene,.31,.08,.31,darkIron,x,.035,z)}
+box(scene,6.1,.14,.15,iron,0,.51,-2.7);box(scene,6.1,.14,.15,iron,0,.51,3.2);
+box(scene,6.35,.1,.12,rusted,0,.88,-3.31);box(scene,6.35,.1,.12,rusted,0,.88,3.81);
 
 // A rack of empty shell slots on the right half of the tabletop
-const rackX=1.85,rackZ=.75,rackW=1.65,rackD=.48;
+const rackX=1.35,rackZ=.7,rackW=1.45,rackD=.48;
 box(scene,rackW,.018,rackD,darkIron,rackX,1.285,rackZ);
 for(let i=0;i<=8;i++)box(scene,.018,.012,.42,chalk,rackX-rackW/2+i*rackW/8,1.3,rackZ);
 box(scene,rackW,.012,.025,chalk,rackX,1.3,rackZ-rackD/2);box(scene,rackW,.012,.025,chalk,rackX,1.3,rackZ+rackD/2);
@@ -113,13 +113,20 @@ shell(-.65,.0,-.3,true);shell(-.38,.25,.4,false);
 // Primitive analog electronics: speaker, receiver, displays, chunky switches and glowing LEDs
 function screen(parent,w,h,x,y,z,color=0x9cbb91){const cv=document.createElement('canvas');cv.width=256;cv.height=96;const cx=cv.getContext('2d');cx.fillStyle='#07100c';cx.fillRect(0,0,256,96);cx.strokeStyle='#52715a';cx.lineWidth=2;for(let i=0;i<12;i++){cx.beginPath();cx.moveTo(i*23,10);cx.lineTo(i*23,86);cx.stroke()}cx.strokeStyle='#a9c99a';cx.beginPath();cx.moveTo(6,60);for(let i=1;i<240;i+=8)cx.lineTo(i,24+Math.random()*46);cx.stroke();const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex}));m.position.set(x,y,z);parent.add(m);return m}
 function knob(parent,x,y,z,r=.075){cylinder(parent,r,r,.065,brass,x,y,z,12).rotation.x=Math.PI/2;box(parent,.018,.075,.02,darkIron,x,y+.018,z+.043)}
-function consoleBox(x,y,z,w,h,d,rot=0,type='panel'){const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=rot;scene.add(g);box(g,w,h,d,rusted,0,0,0);box(g,w*.94,h*.82,.035,darkIron,0,0,d/2+.018);if(type==='speaker'){const ring=new THREE.Mesh(new THREE.TorusGeometry(h*.29,.045,8,32),brass);ring.position.set(-w*.20,-h*.04,d/2+.055);g.add(ring);sphere(g,-w*.20,-h*.04,d/2+.04,h*.25,h*.25,.045,rubber,24);box(g,w*.42,h*.13,.035,iron,w*.22,h*.27,d/2+.045);for(let i=0;i<4;i++)box(g,.045,h*.45,.02,brass,w*.1+i*.1,-h*.24,d/2+.05)}else{box(g,w*.66,h*.28,.028,screenMat,0,h*.2,d/2+.05);screen(g,w*.6,h*.23,0,h*.2,d/2+.069);for(let i=0;i<5;i++)knob(g,-w*.35+i*w*.17,-h*.18,d/2+.055,.055);for(let i=0;i<4;i++){const l=sphere(g,-w*.34+i*w*.2,h*.0,d/2+.06,.025,.025,.018,material(i%2?0x8a2928:0x9bb78e,.3,.1,i%2?0x861a18:0x31573c,2),10)}}return g}
+function consoleBox(x,y,z,w,h,d,rot=0,type='panel',parent=scene){const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=rot;parent.add(g);box(g,w,h,d,rusted,0,0,0);box(g,w*.94,h*.82,.035,darkIron,0,0,d/2+.018);if(type==='speaker'){const ring=new THREE.Mesh(new THREE.TorusGeometry(h*.29,.045,8,32),brass);ring.position.set(-w*.20,-h*.04,d/2+.055);g.add(ring);sphere(g,-w*.20,-h*.04,d/2+.04,h*.25,h*.25,.045,rubber,24);box(g,w*.42,h*.13,.035,iron,w*.22,h*.27,d/2+.045);for(let i=0;i<4;i++)box(g,.045,h*.45,.02,brass,w*.1+i*.1,-h*.24,d/2+.05)}else{box(g,w*.66,h*.28,.028,screenMat,0,h*.2,d/2+.05);screen(g,w*.6,h*.23,0,h*.2,d/2+.069);for(let i=0;i<5;i++)knob(g,-w*.35+i*w*.17,-h*.18,d/2+.055,.055);for(let i=0;i<4;i++){const l=sphere(g,-w*.34+i*w*.2,h*.0,d/2+.06,.025,.025,.018,material(i%2?0x8a2928:0x9bb78e,.3,.1,i%2?0x861a18:0x31573c,2),10)}}return g}
 consoleBox(-4.72,1.85,-.9,1.32,1.35,.38,.28,'speaker');
 consoleBox(-4.65,2.73,-2.72,1.46,.72,.34,.12,'panel');
-consoleBox(4.75,1.86,-.9,1.35,1.18,.38,-.28,'panel');
-consoleBox(4.6,2.78,-2.65,1.2,.84,.34,-.12,'speaker');
-// A second bulky rack close to the far right edge
-const rack= new THREE.Group();rack.position.set(3.95,1.58,.05);rack.rotation.y=-.47;scene.add(rack);
+// Independent right-side status/control station. It is a single movable group,
+ // intentionally separate from the table so its gauges and controls can animate later.
+const rightStatusStation=new THREE.Group();
+rightStatusStation.position.set(4.72,0,-.75);
+scene.add(rightStatusStation);
+box(rightStatusStation,1.48,.13,1.05,iron,0,.68,0);
+for(const x of [-.57,.57]){box(rightStatusStation,.12,.7,.12,iron,x,.33,.28);box(rightStatusStation,.2,.06,.2,darkIron,x,.035,.28)}
+consoleBox(0,1.86,0,1.35,1.18,.38,-.28,'panel',rightStatusStation);
+consoleBox(-.12,2.78,-1.75,1.2,.84,.34,-.12,'speaker',rightStatusStation);
+// Separate auxiliary meter rack attached to the station, not embedded in the tabletop.
+const rack=new THREE.Group();rack.position.set(-.2,1.58,.92);rack.rotation.y=-.47;rightStatusStation.add(rack);
 box(rack,1.7,.58,.7,iron,0,0,0);box(rack,1.56,.39,.05,darkIron,0,.02,.38);box(rack,1.3,.08,.035,screenMat,0,.12,.415);
 for(let i=0;i<6;i++){cylinder(rack,.075,.075,.05,brass,-.58+i*.23,-.08,.43,12).rotation.x=Math.PI/2;sphere(rack,-.58+i*.23,.1,.435,.027,.027,.015,material(i%2?0xb33c30:0xa0b98c,.25,.05,i%2?0x77120e:0x315e3c,2),10)}
 for(let i=0;i<7;i++){const tube=cylinder(rack,.095,.095,.36,material(0x51413a,.55,.45),-.65+i*.215,.43,.04,12);tube.rotation.z=Math.PI/2}
